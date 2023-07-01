@@ -1,4 +1,10 @@
 .investments {
     width: 100vh;
     height: 100vh;
+    overflow: scroll;
+
+    .card {
+        padding: 1em;
+        margin: 1em;
+    }
 }

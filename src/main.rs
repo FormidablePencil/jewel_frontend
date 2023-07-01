@@ -7,6 +7,7 @@ use routes::investments::{Investments};
 use routes::login::{Login};
 use crate::routes::profile::{Profile};
 use crate::routes::data_center::{DataCenter};
+use routes::investment_stats::{InvestmentStats};
 
 mod components;
 mod content;
@@ -42,6 +43,8 @@ pub enum Route {
     DataCenter,
     #[at("/login")]
     Login,
+    #[at("/investment_stats")]
+    InvestmentStats,
     #[not_found]
     #[at("/404")]
     NotFound,
@@ -168,6 +171,9 @@ fn switch(routes: Route) -> Html {
         },
         Route::DataCenter => html! {
             <DataCenter />
+        },
+        Route::InvestmentStats => html! {
+            <InvestmentStats />
         },
         Route::Login => html! {
             <Login />
