@@ -1,11 +1,15 @@
+use std::borrow::Cow;
 use chrono::{DateTime, Months, NaiveDate, NaiveDateTime, Utc};
 use instant::Instant;
 use yew::prelude::*;
 use yew::{html, Html};
+use yew::html::IntoPropValue;
 
+
+#[derive(Clone, Properties, PartialEq)]
 struct UserBoughtStockHistoryInstance {
     bought_percentage: f64, // sell would be negative
-    money_invested: i32,
+    money_invested: f32,
     date: AttrValue,
 }
 
@@ -13,23 +17,94 @@ struct UserBoughtStockHistoryInstance {
 pub fn InvestmentStats() -> Html {
     let dt = AttrValue::from(Utc::now().date_naive().to_string());
 
-    let user_bought_stock_history = [
+        let user_bought_stock_history = [
         UserBoughtStockHistoryInstance {
             bought_percentage: 0.00012701754829,
-            money_invested: 1328,
+            money_invested: 1328.0,
             date: AttrValue::from(NaiveDate::from_ymd_opt(2021, 4, 2).unwrap().to_string())
         },
         UserBoughtStockHistoryInstance {
             bought_percentage: 0.000472340878,
-            money_invested: 3130,
+            money_invested: 3130.0,
             date: AttrValue::from(NaiveDate::from_ymd_opt(2021, 8, 18).unwrap().to_string())
         },
         UserBoughtStockHistoryInstance {
             bought_percentage: 0.00008139847710,
-            money_invested: 9344,
+            money_invested: 9344.0,
             date: AttrValue::from(NaiveDate::from_ymd_opt(2022, 2, 20).unwrap().to_string())
         },
     ];
+
+    struct CalcPlots {
+        stock_value_in_percentage: u32
+    }
+
+    fn calc_plots(current_stock_value: f32) -> f32 {
+        let top_end_stock_value: f32 = 40000.0;
+        let bottom_end_stock_value: f32 = 10000.0;
+        // calculated by date of bottom and top end stock value
+        let stock_value = top_end_stock_value - bottom_end_stock_value;
+        let stock_value_in_percentage = current_stock_value / stock_value;
+        // CalcPlots { stock_value_in_percentage }
+        // stock_value_in_percentage
+        stock_value_in_percentage
+    };
+
+    // #[derive(Clone, Properties, PartialEq)]
+    // struct Props {
+    //     #[prop_or_default]
+    //     user_bought_stock_history: Vec<UserBoughtStockHistoryInstance>,
+    // }
+
+    #[function_component]
+    fn Chart(/*props: &Props*/) -> Html {
+        let user_bought_stock_history = [
+            UserBoughtStockHistoryInstance {
+                bought_percentage: 0.00012701754829,
+                money_invested: 1328.0,
+                date: AttrValue::from(NaiveDate::from_ymd_opt(2021, 4, 2).unwrap().to_string())
+            },
+            UserBoughtStockHistoryInstance {
+                bought_percentage: 0.000472340878,
+                money_invested: 3130.0,
+                date: AttrValue::from(NaiveDate::from_ymd_opt(2021, 8, 18).unwrap().to_string())
+            },
+            UserBoughtStockHistoryInstance {
+                bought_percentage: 0.00008139847710,
+                money_invested: 9344.0,
+                date: AttrValue::from(NaiveDate::from_ymd_opt(2022, 2, 20).unwrap().to_string())
+            },
+        ];
+        // let user_bought_stock_history = props.user_bought_stock_history.clone();
+        // let pass_user_bought_stock_history = IntoPropValue::into_prop_value(user_bought_stock_history);
+
+        user_bought_stock_history.iter().enumerate().for_each(|(i, x)| {
+            println!("Item {} = {}", i, x.money_invested);
+        });
+
+        html! {
+            <div>
+                {
+                    user_bought_stock_history.iter().enumerate().map(|(index, item), | {
+                        html!{
+                            <svg style="width: 20px;"> <line stroke-width="1px" stroke="#000000" x1="0"
+                                x2="20"
+                                y1={format!("{}", 20.0 * calc_plots(item.money_invested))} id="mySVG"
+                                y2={format!("{}", 20.0 * calc_plots(user_bought_stock_history[index].money_invested))} id="mySVG" />
+                            </svg>
+                        }
+                    }).collect::<Html>()
+                }
+            {user_bought_stock_history[0].money_invested}
+                <svg style="width: 20px;">
+                    <line stroke-width="1px" stroke="#000000" x1="0"
+                    x2="20"
+                    y1={format!("{}", 200.0 * calc_plots(500.0))} id="mySVG"
+                    y2={format!("{}", 200.0 * calc_plots(2000.0))} id="mySVG" />
+                </svg>
+            </div>
+        }
+    }
 
     html! {
         <div>
@@ -37,12 +112,22 @@ pub fn InvestmentStats() -> Html {
             {dt.to_string()}
             <p>{"stocks graph here"}</p>
                 // todo - replace with dates
-                <dd hover="df" class="percentage percentage-11"><span class="text">{"IE 11: 11.33%"}</span></dd>
-                <dd class="percentage percentage-49"><span class="text">{"Chrome: 49.77%"}</span></dd>
-                <dd class="percentage percentage-16"><span class="text">{"Firefox: 16.09%"}</span></dd>
-                <dd class="percentage percentage-5"><span class="text">{"Safari: 5.41%"}</span></dd>
-                <dd class="percentage percentage-2"><span class="text">{"Opera: 1.62%"}</span></dd>
-                <dd class="percentage percentage-2"><span class="text">{"Android 4.4: 2%"}</span></dd>
+            <Chart />
+            // <div class="chart">
+            //     <svg style="width: 20px;">
+            //         <line stroke-width="1px" stroke="#000000" x1="0"
+            //             x2="20"
+            //             y1={format!("{}", 200.0 * calc_plots(1000.0))} id="mySVG"
+            //             y2={format!("{}", 200.0 * calc_plots(500.0))} id="mySVG" />
+            //     </svg>
+            //     {format!("{}", calc_plots(1000.0))}
+            //     <svg style="width: 20px;">
+            //         <line stroke-width="1px" stroke="#000000" x1="0"
+            //             x2="20"
+            //             y1={format!("{}", 200.0 * calc_plots(500.0))} id="mySVG"
+            //             y2={format!("{}", 200.0 * calc_plots(2000.0))} id="mySVG" />
+            //     </svg>
+            // </div>
             <p>
                 {"Stock bought history"}
             </p>

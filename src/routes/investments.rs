@@ -10,16 +10,21 @@ pub struct MyInvestments {
     earned_percentage: u8,
 }
 
+pub fn get_investments() -> Vec<MyInvestments> {
+    let investments = vec![
+        MyInvestments { name: AttrValue::from("Dennis"), amount: 4234, earned_percentage: 0 },
+        MyInvestments { name: AttrValue::from("Daniel A"), amount: 2121, earned_percentage: 0 },
+        MyInvestments { name: AttrValue::from("Daniel Ch"), amount: 1039, earned_percentage: 0 },
+        MyInvestments { name: AttrValue::from("Ruslan"), amount: 2993, earned_percentage: 0 },
+        MyInvestments { name: AttrValue::from("Simon"), amount: 1339, earned_percentage: 0 },
+        MyInvestments { name: AttrValue::from("Tim"), amount: 1933, earned_percentage: 0 },
+    ];
+    investments
+}
+
 #[function_component]
 pub fn Investments() -> Html {
-    let investments = vec![
-        MyInvestments { name: AttrValue::from("Dennis"), amount: 0, earned_percentage: 0 },
-        MyInvestments { name: AttrValue::from("Daniel A"), amount: 0, earned_percentage: 0 },
-        MyInvestments { name: AttrValue::from("Daniel Ch"), amount: 0, earned_percentage: 0 },
-        MyInvestments { name: AttrValue::from("Ruslan"), amount: 0, earned_percentage: 0 },
-        MyInvestments { name: AttrValue::from("Simon"), amount: 0, earned_percentage: 0 },
-        MyInvestments { name: AttrValue::from("Tim"), amount: 0, earned_percentage: 0 },
-    ];
+    let investments = get_investments();
 
     html! {
         <div class="investments">
