@@ -86,22 +86,20 @@ pub fn InvestmentStats() -> Html {
             <div>
                 {
                     user_bought_stock_history.iter().enumerate().map(|(index, item), | {
+                        let mut previous_money_invested = 0.0;
+                        if index > 0 {
+                            previous_money_invested = user_bought_stock_history[index - 1].money_invested;
+                        }
+
                         html!{
                             <svg style="width: 20px;"> <line stroke-width="1px" stroke="#000000" x1="0"
                                 x2="20"
-                                y1={format!("{}", 20.0 * calc_plots(item.money_invested))} id="mySVG"
-                                y2={format!("{}", 20.0 * calc_plots(user_bought_stock_history[index].money_invested))} id="mySVG" />
+                                y1={format!("{}", 20.0 * calc_plots(previous_money_invested))} id="mySVG"
+                                y2={format!("{}", 20.0 * calc_plots(item.money_invested))} id="mySVG" />
                             </svg>
                         }
                     }).collect::<Html>()
                 }
-            {user_bought_stock_history[0].money_invested}
-                <svg style="width: 20px;">
-                    <line stroke-width="1px" stroke="#000000" x1="0"
-                    x2="20"
-                    y1={format!("{}", 200.0 * calc_plots(500.0))} id="mySVG"
-                    y2={format!("{}", 200.0 * calc_plots(2000.0))} id="mySVG" />
-                </svg>
             </div>
         }
     }
@@ -113,21 +111,6 @@ pub fn InvestmentStats() -> Html {
             <p>{"stocks graph here"}</p>
                 // todo - replace with dates
             <Chart />
-            // <div class="chart">
-            //     <svg style="width: 20px;">
-            //         <line stroke-width="1px" stroke="#000000" x1="0"
-            //             x2="20"
-            //             y1={format!("{}", 200.0 * calc_plots(1000.0))} id="mySVG"
-            //             y2={format!("{}", 200.0 * calc_plots(500.0))} id="mySVG" />
-            //     </svg>
-            //     {format!("{}", calc_plots(1000.0))}
-            //     <svg style="width: 20px;">
-            //         <line stroke-width="1px" stroke="#000000" x1="0"
-            //             x2="20"
-            //             y1={format!("{}", 200.0 * calc_plots(500.0))} id="mySVG"
-            //             y2={format!("{}", 200.0 * calc_plots(2000.0))} id="mySVG" />
-            //     </svg>
-            // </div>
             <p>
                 {"Stock bought history"}
             </p>
