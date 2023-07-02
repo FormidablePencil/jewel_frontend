@@ -1,10 +1,6 @@
-use std::borrow::Cow;
-use chrono::{DateTime, Months, NaiveDate, NaiveDateTime, Utc};
-use instant::Instant;
+use chrono::{NaiveDate, Utc};
 use yew::prelude::*;
 use yew::{html, Html};
-use yew::html::IntoPropValue;
-
 
 #[derive(Clone, Properties, PartialEq)]
 struct UserBoughtStockHistoryInstance {
@@ -35,10 +31,6 @@ pub fn InvestmentStats() -> Html {
         },
     ];
 
-    struct CalcPlots {
-        stock_value_in_percentage: u32
-    }
-
     fn calc_plots(current_stock_value: f32) -> f32 {
         let top_end_stock_value: f32 = 40000.0;
         let bottom_end_stock_value: f32 = 10000.0;
@@ -48,7 +40,7 @@ pub fn InvestmentStats() -> Html {
         // CalcPlots { stock_value_in_percentage }
         // stock_value_in_percentage
         stock_value_in_percentage
-    };
+    }
 
     // #[derive(Clone, Properties, PartialEq)]
     // struct Props {

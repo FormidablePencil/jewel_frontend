@@ -1,0 +1,12 @@
+.profile-image-container {
+    display: flex;
+    justify-content: center;
+
+    .profile-image {
+        position: absolute;
+        top: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
