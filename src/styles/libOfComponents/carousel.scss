@@ -1,12 +1,10 @@
 .carousel-component {
     display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
-
-    .content {
-
-    }
 }
 
 .carousel-component::-webkit-scrollbar {

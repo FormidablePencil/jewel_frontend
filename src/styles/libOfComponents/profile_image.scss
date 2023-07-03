@@ -1,12 +1,25 @@
-.profile-image-container {
-    display: flex;
-    justify-content: center;
+.image-container {
 
-    .profile-image {
-        position: absolute;
-        top: 100px;
+    .bg-img-container {
+        background-color: red;
+
+        .background-image {
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .profile-image-container {
         display: flex;
         justify-content: center;
-        align-items: center;
+
+        .profile-image {
+            position: absolute;
+            top: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
+
 }
